@@ -3,7 +3,8 @@
 	"displayName": "[accent]Notepad",
 	"author": "DeltaNedas",
 	"description": "Adds a handy notepad.\n[stat]Requires [#00aaff]DeltaNedas/ui-lib[].",
-	"version": "1.0.0",
+	"version": "2.0.0",
+	"minGameVersion": 105,
 	"dependencies": ["ui-lib"],
 	"hidden": true
 }

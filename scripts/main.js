@@ -15,27 +15,24 @@
 	along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-(() => {
-
 const ui = require("ui-lib/library");
 
 var notepad = null;
 
 const build = () => {
-	notepad = extendContent(FloatingDialog, "$nodepad", {
+	notepad = extendContent(BaseDialog, "$notepad", {
 		save() {
-			Core.settings.putSave("notepad-text", this._text);
+			Core.settings.put("notepad-text", this.text);
+			Core.settings.manualSave();
 		},
 
-		setText(text) {this._text = text;},
-		getText() {return this._text;}
+		text: Core.settings.get("notepad-text", "")
 	});
-	notepad.text = Core.settings.get("notepad-text", "");
 	this.global.notepad = notepad;
 
-	const area = notepad.cont.addArea(notepad.text.replace(/\n/g, "\r"), cons(t => {
+	const area = notepad.cont.area(notepad.text.replace(/\n/g, "\r"), t => {
 		notepad.text = t;
-	})).grow().pad(20).get();
+	}).grow().pad(20).get();
 	ui.mobileAreaInput(area, t => {
 		notepad.text = t;
 	}, () => {
@@ -43,17 +40,15 @@ const build = () => {
 			title: "$notepad",
 			text: notepad.text,
 			// Max storable string, if you really need that
-			maxLength: 65564
+			maxLength: Math.pow(2, 15) - 1
 		};
 	});
 
 	notepad.addCloseButton();
-	notepad.hidden(run(() => notepad.save()));
+	notepad.hidden(() => notepad.save());
 };
 
 ui.addButton("notepad", "edit", () => notepad.show());
 ui.addMenuButton("$notepad", "edit", () => notepad.show());
 
 ui.onLoad(build);
-
-})();
