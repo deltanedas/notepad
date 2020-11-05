@@ -30,7 +30,7 @@ const build = () => {
 	});
 	this.global.notepad = notepad;
 
-	const area = notepad.cont.area(notepad.text.replace(/\n/g, "\r"), t => {
+	const area = notepad.cont.area(notepad.text, t => {
 		notepad.text = t;
 	}).grow().pad(20).get();
 	ui.mobileAreaInput(area, t => {
