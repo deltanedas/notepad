@@ -20,7 +20,7 @@ const ui = require("ui-lib/library");
 var notepad = null;
 
 const build = () => {
-	notepad = extendContent(BaseDialog, "$notepad", {
+	notepad = extend(BaseDialog, "$notepad", {
 		save() {
 			Core.settings.put("notepad-text", this.text);
 			Core.settings.manualSave();
@@ -28,7 +28,7 @@ const build = () => {
 
 		text: Core.settings.get("notepad-text", "")
 	});
-	this.global.notepad = notepad;
+	global.notepad = notepad;
 
 	const area = notepad.cont.area(notepad.text, t => {
 		notepad.text = t;
